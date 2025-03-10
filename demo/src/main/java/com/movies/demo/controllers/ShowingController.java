@@ -37,4 +37,11 @@ public class ShowingController {
         return showingService.getByDate(requestDate);
     }
 
+    @PostMapping("/buy")
+    public void buy(@RequestBody RequestDate requestDate) {
+        
+    }
+
+    
+
 }

@@ -1,10 +1,7 @@
 package com.movies.demo.configs;
 
-import com.movies.demo.services.JwtService;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +13,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import java.io.IOException;
+import com.movies.demo.services.JwtService;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -49,14 +51,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
+            System.out.println("ok");
             final String jwt = authHeader.substring(7);
+            System.out.println(jwt);
             final String userEmail = jwtService.extractUsername(jwt);
+
+            
+            System.out.println(userEmail);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+            System.out.println(authentication);
+            
             if (userEmail != null && authentication == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
@@ -71,7 +79,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
-            handlerExceptionResolver.resolveException(request, response, null, exception);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"No autorizado. Token inválido o expirado\"}");
+            return;
         }
     }
 }

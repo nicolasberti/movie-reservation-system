@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.movies.demo.models.Movie;
-import com.movies.demo.models.requests.RequestDate;
 import com.movies.demo.services.MovieService;
 
 @RestController

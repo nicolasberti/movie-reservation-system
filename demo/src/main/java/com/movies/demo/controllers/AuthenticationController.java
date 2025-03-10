@@ -1,16 +1,17 @@
 package com.movies.demo.controllers;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.movies.demo.dtos.LoginUserDto;
 import com.movies.demo.dtos.RegisterUserDto;
 import com.movies.demo.models.User;
 import com.movies.demo.models.responses.LoginResponse;
 import com.movies.demo.services.AuthenticationService;
 import com.movies.demo.services.JwtService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/auth")
 @RestController
@@ -24,7 +25,7 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
 
