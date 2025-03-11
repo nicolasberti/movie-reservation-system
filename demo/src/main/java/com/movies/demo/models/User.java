@@ -4,10 +4,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,14 +20,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
-    public User(){
-
-    }
-    public User(String email, String password){
-        this.email = email;
-        this.password = password;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,53 +32,75 @@ public class User implements UserDetails {
     private String password;
 
     private String name;
-    
-    private String role;
 
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
+    @Enumerated(EnumType.STRING) // Asegura que el valor se guarde como STRING
+    private Role role;
+
     @OneToMany(mappedBy = "user")
     private List<UserShowing> userShowings;
 
-    public List<UserShowing> getUserShowings() {
-        return userShowings;
+    public User() {
     }
-    public void setUserShowings(List<UserShowing> userShowings) {
-        this.userShowings = userShowings;
+
+    public User(String email, String password, Role role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
+
+    // Getters and Setters
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    // JWT - UserDetails
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<UserShowing> getUserShowings() {
+        return userShowings;
+    }
+
+    public void setUserShowings(List<UserShowing> userShowings) {
+        this.userShowings = userShowings;
+    }
+
+    // Métodos de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -110,6 +127,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    
-    
+
 }

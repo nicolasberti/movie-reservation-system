@@ -22,7 +22,6 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping("/add")
-    // solo admin
     public ResponseEntity<Movie> crearAuto(@RequestBody Movie movie) {
         return new ResponseEntity(this.movieService.add(movie), HttpStatus.CREATED);
     }
