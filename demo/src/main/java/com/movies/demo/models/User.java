@@ -3,25 +3,49 @@ package com.movies.demo.models;
 import java.util.Collection;
 import java.util.List;
 
-import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
+    public User(){
+
+    }
+    public User(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(unique = true, nullable = false)
-    private String username;
+    private String email;
+
     @Column(nullable = false)
     private String password;
-    private String name;
-    private int role;
-    //private String token;
 
+    private String name;
+    
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
     @OneToMany(mappedBy = "user")
     private List<UserShowing> userShowings;
 
@@ -37,11 +61,11 @@ public class User implements UserDetails {
     public void setId(long id) {
         this.id = id;
     }
-   /* public String getUsername() {
-        return username;
-    }*/
-    public void setUsername(String username) {
-        this.username = username;
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
     public String getPassword() {
         return password;
@@ -55,21 +79,8 @@ public class User implements UserDetails {
     public void setName(String name) {
         this.name = name;
     }
-    public int getRole() {
-        return role;
-    }
-    public void setRole(int role) {
-        this.role = role;
-    }
-   /*public String getToken() {
-        return token;
-    }
-    public void setToken(String token) {
-        this.token = token;
-    }*/
 
-    // userdetails
-
+    // JWT - UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
@@ -77,7 +88,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -99,5 +110,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    
     
 }

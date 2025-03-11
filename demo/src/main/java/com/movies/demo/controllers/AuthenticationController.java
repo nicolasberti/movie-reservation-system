@@ -10,14 +10,14 @@ import com.movies.demo.dtos.LoginUserDto;
 import com.movies.demo.dtos.RegisterUserDto;
 import com.movies.demo.models.User;
 import com.movies.demo.models.responses.LoginResponse;
-import com.movies.demo.services.AuthenticationService;
-import com.movies.demo.services.JwtService;
+import com.movies.demo.services.JWT.AuthenticationService;
+import com.movies.demo.services.JWT.JwtService;
 
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
-
+    
     private final AuthenticationService authenticationService;
 
     public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
@@ -33,15 +33,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        User authenticatedUser = authenticationService.authenticate(loginUserDto);
+public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
-        String jwtToken = jwtService.generateToken(authenticatedUser);
+    // Genera el token con el usuario autenticado
+    String jwtToken = jwtService.generateToken(authenticatedUser);
 
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setToken(jwtToken);
-        loginResponse.setExpiresIn(jwtService.getExpirationTime());
+    LoginResponse loginResponse = new LoginResponse();
+    loginResponse.setToken(jwtToken);
+    loginResponse.setExpiresIn(jwtService.getExpirationTime());
 
-        return ResponseEntity.ok(loginResponse);
-    }
+    return ResponseEntity.ok(loginResponse);
+}
+
 }
