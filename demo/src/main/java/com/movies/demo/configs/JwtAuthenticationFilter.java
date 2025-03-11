@@ -53,7 +53,6 @@ protected void doFilterInternal(
 
     try {
         final String jwt = authHeader.substring(7); // Obtiene el JWT del encabezado
-        System.out.println("&&&&& JWT: " + jwt);
         final String userEmail = jwtService.extractUsername(jwt);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,9 +74,7 @@ protected void doFilterInternal(
 
         filterChain.doFilter(request, response);
     } catch (Exception exception) {
-        System.out.println("$$$ Comienzo de excepción $$$");
         System.out.println(exception.getMessage());
-        System.out.println("$$$ Fin de excepción $$$");
         handlerExceptionResolver.resolveException(request, response, null, exception);
     }
 }
