@@ -7,8 +7,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: moviesystem
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
@@ -18,7 +16,7 @@ services:
 
   app:
     build: .
-    container_name: movie-system-reservation
+    container_name: app-movies
     depends_on:
       - mysql
     ports:
