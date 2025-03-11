@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.movies.demo.models.Showing;
 import com.movies.demo.models.requests.RequestDate;
 import com.movies.demo.models.requests.RequestReserve;
+import com.movies.demo.models.responses.ShowingStats;
 import com.movies.demo.services.ShowingService;
 
 @RestController
@@ -53,9 +54,14 @@ public class ShowingController {
         return showingService.getSeats(showingId);
     }
 
-    @PostMapping("/buy")
-    public void buy(@RequestBody RequestDate requestDate) {
-        
+    // admin
+    /*@GetMapping("/stats")
+    public ResponseEntity<ShowingStats> getStats(@RequestParam long showingId) {
+        return new ResponseEntity(showingService.getStats(showingId), HttpStatus.CREATED);
+    }*/
+    @GetMapping("/stats")
+    public ShowingStats getStats(@RequestParam long showingId) {
+        return showingService.getStats(showingId);
     }
 
     

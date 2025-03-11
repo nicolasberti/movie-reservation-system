@@ -13,4 +13,5 @@ import com.movies.demo.models.UserShowing;
 public interface UserShowingRepository extends JpaRepository<UserShowing, Long> {
     boolean existsByShowingAndSeat(Showing showing, int seat);
     List<UserShowing> findByShowingAndUser(Showing showing, User user);
+    List<UserShowing> findByShowing(Showing showing);
 }
