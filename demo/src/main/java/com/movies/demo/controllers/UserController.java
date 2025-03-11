@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.movies.demo.dtos.UserShowingDTO;
 import com.movies.demo.models.User;
-import com.movies.demo.models.UserShowing;
 import com.movies.demo.services.UserService;
 
 @RestController

@@ -27,13 +27,11 @@ public class MovieController {
     }
 
     @PostMapping("/update")
-    // solo admin
     public ResponseEntity<Movie> actualizarMovie(@RequestBody Movie movie) {
         return new ResponseEntity(this.movieService.update(movie), HttpStatus.CREATED);
     }
 
     @PostMapping("/delete")
-    // solo admin
     public ResponseEntity<String> deleteMovie(@RequestBody Movie movie) {
         return new ResponseEntity(this.movieService.delete(movie), HttpStatus.CREATED);
     }

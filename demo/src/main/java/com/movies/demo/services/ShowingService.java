@@ -1,60 +1,44 @@
 package com.movies.demo.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.movies.demo.models.Movie;
 import com.movies.demo.models.Showing;
-import com.movies.demo.models.User;
-import com.movies.demo.models.UserShowing;
-import com.movies.demo.models.exceptions.InvalidRequestException;
 import com.movies.demo.models.requests.RequestDate;
 import com.movies.demo.models.requests.RequestReserve;
 import com.movies.demo.models.responses.ShowingStats;
 import com.movies.demo.repository.MovieRepository;
 import com.movies.demo.repository.ShowingRepository;
-import com.movies.demo.repository.UserRepository;
-import com.movies.demo.repository.UserShowingRepository;
+import com.movies.demo.services.Showing.GetterService;
 import com.movies.demo.services.Showing.ReservationService;
+import com.movies.demo.services.Showing.SeatsService;
+import com.movies.demo.services.Showing.StatsService;
 
 
 @Service
 public class ShowingService {
-
     @Autowired
-    private ShowingRepository showingRepository;
-
-    @Autowired
-    private MovieRepository movieRepository;
-
-    @Autowired
-    private UserShowingRepository userShowingRepository;
+    private SeatsService seatsService;
 
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private StatsService statsService;
+
+    @Autowired
+    private GetterService getterService;
+
     public List<Showing> getAll() {
-        return showingRepository.findAll();
+        return getterService.getAll();
     }
 
     public List<Showing> getShowingMovieByDate(RequestDate requestDate) {
-       if (Objects.isNull(requestDate.getId()) || requestDate.getDate() == null) {
-            throw new InvalidRequestException("ID and date must not be null");
-        }
-        Movie movie = movieRepository.findById(requestDate.getId()).get();
-        return showingRepository.findByMovieAndDate(movie, requestDate.getDate());
+       return getterService.getShowingMovieByDate(requestDate);
     }
 
     public List<Showing> getByDate(RequestDate requestDate) {
-        return showingRepository.findByDate(requestDate.getDate());
+        return getterService.getByDate(requestDate);
     }
 
     public boolean reserve(RequestReserve requestReserve) {
@@ -62,26 +46,11 @@ public class ShowingService {
     }
 
     public List<Integer> getSeats(long showingId) {
-        List<Integer> seats = new ArrayList<Integer>();
-        for(int i = 0; i < showingRepository.findById(showingId).get().getSeats(); i++) {
-            if(!userShowingRepository.existsByShowingAndSeat(showingRepository.findById(showingId).get(), i)) {
-                seats.add(i);
-            }
-        }
-        return seats;
+        return seatsService.getSeats(showingId);
     }
 
     public ShowingStats getStats(long showingId) {
-        Showing showing = showingRepository.findById(showingId).get();
-        List<UserShowing> userShowings = userShowingRepository.findByShowing(showing);
-        long money = (long) (userShowings.size() * showing.getPrice());
-        int seatsOccupied = userShowings.size();
-        int seatsAvailable = showing.getSeats() - userShowings.size();
-        ShowingStats showingStats = new ShowingStats();
-        showingStats.setMoney(money);
-        showingStats.setAvailableSeats(seatsAvailable);
-        showingStats.setOccupiedSeats(seatsOccupied);
-        return showingStats;
+        return statsService.getStats(showingId);
     }
 
 }

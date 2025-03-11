@@ -1,14 +1,9 @@
 package com.movies.demo.services;
 
-import java.sql.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.movies.demo.models.Movie;
-import com.movies.demo.models.Showing;
-import com.movies.demo.models.requests.RequestDate;
 import com.movies.demo.repository.MovieRepository;
 
 @Service

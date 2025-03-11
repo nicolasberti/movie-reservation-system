@@ -28,13 +28,11 @@ public class ShowingController {
         return showingService.getAll();
     }
 
-    // Obtiene funciones de una pelicula por fecha
     @PostMapping("/getshowingmoviebydate")
     public List<Showing> getShowingMovieByDate(@RequestBody RequestDate requestDate) {
         return showingService.getShowingMovieByDate(requestDate);
     }
 
-    // Obtiene funciones por fecha, sin importar que pelicula quiera
     @PostMapping("/getbydate")
     public List<Showing> getByDate(@RequestBody RequestDate requestDate) {
         return showingService.getByDate(requestDate);
@@ -54,7 +52,6 @@ public class ShowingController {
         return showingService.getSeats(showingId);
     }
 
-    // admin
     /*@GetMapping("/stats")
     public ResponseEntity<ShowingStats> getStats(@RequestParam long showingId) {
         return new ResponseEntity(showingService.getStats(showingId), HttpStatus.CREATED);
