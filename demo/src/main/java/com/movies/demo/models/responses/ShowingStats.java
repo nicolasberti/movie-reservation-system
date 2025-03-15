@@ -5,6 +5,13 @@ public class ShowingStats {
     private long money;
     private int availableSeats;
     private int occupiedSeats;
+
+    public ShowingStats(){}
+    public ShowingStats(long money, int availableSeats, int occupiedSeats) {
+        this.money = money;
+        this.availableSeats = availableSeats;
+        this.occupiedSeats = occupiedSeats;
+    }
     public long getMoney() {
         return money;
     }
