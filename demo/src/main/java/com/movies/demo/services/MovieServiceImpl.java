@@ -11,8 +11,13 @@ import com.movies.demo.repository.MovieRepository;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    @Autowired
     private MovieRepository movieRepository;
+
+    public MovieServiceImpl(
+        MovieRepository movieRepository
+    ) {
+        this.movieRepository = movieRepository;
+    }
 
     @Override
     public Movie add(Movie movie) {

@@ -16,14 +16,19 @@ import jakarta.transaction.Transactional;
 @Service
 public class ReservationServiceImpl implements ReservationService {
     
-    @Autowired
     private ShowingRepository showingRepository;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private UserShowingRepository userShowingRepository;
+
+    public ReservationServiceImpl(
+        ShowingRepository showingRepository, 
+        UserRepository userRepository, 
+        UserShowingRepository userShowingRepository
+    ) {
+        this.showingRepository = showingRepository;
+        this.userRepository = userRepository;
+        this.userShowingRepository = userShowingRepository;
+    }   
 
     @Override
     @Transactional

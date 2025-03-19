@@ -18,8 +18,13 @@ import com.movies.demo.services.MovieService;
 @RequestMapping("/movie")
 public class MovieController {
     
-    @Autowired
     private MovieService movieService;
+
+    public MovieController(
+        MovieService movieService
+    ){
+        this.movieService = movieService;
+    }
 
     @PostMapping("/add")
     public ResponseEntity<Movie> crearAuto(@RequestBody Movie movie) {

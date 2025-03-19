@@ -20,8 +20,13 @@ import com.movies.demo.services.ShowingService;
 @RequestMapping("/showing")
 public class ShowingController {
     
-    @Autowired
     private ShowingService showingService;
+
+    public ShowingController(
+        ShowingService showingService
+    ) {
+        this.showingService = showingService;
+    }
 
     @GetMapping("/showings")
     public List<Showing> getShowings() {

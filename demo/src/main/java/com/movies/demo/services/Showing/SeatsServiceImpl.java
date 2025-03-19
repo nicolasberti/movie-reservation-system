@@ -12,12 +12,16 @@ import com.movies.demo.repository.UserShowingRepository;
 @Service
 public class SeatsServiceImpl implements SeatsService {
     
-        @Autowired
         private ShowingRepository showingRepository;
-
-        @Autowired
         private UserShowingRepository userShowingRepository;
         
+        public SeatsServiceImpl(
+            ShowingRepository showingRepository, 
+            UserShowingRepository userShowingRepository
+        ) {
+            this.showingRepository = showingRepository;
+            this.userShowingRepository = userShowingRepository;
+        }
         @Override
         public List<Integer> getSeats(long showingId) {
         List<Integer> seats = new ArrayList<Integer>();

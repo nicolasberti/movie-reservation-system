@@ -17,9 +17,13 @@ import com.movies.demo.services.UserService;
 @RequestMapping("/user")
 public class UserController {
     
-    @Autowired
     private UserService userService;
 
+    public UserController(
+        UserService userService
+    ){
+        this.userService = userService;
+    }
     @GetMapping("/users")
     public List<User> getUsers() {
         return userService.getAll();

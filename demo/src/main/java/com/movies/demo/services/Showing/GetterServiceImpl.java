@@ -16,11 +16,16 @@ import com.movies.demo.repository.ShowingRepository;
 @Service
 public class GetterServiceImpl implements GetterService {
     
-    @Autowired
     private ShowingRepository showingRepository;
-
-    @Autowired
     private MovieRepository movieRepository;
+
+    public GetterServiceImpl(
+        ShowingRepository showingRepository, 
+        MovieRepository movieRepository
+    ) {
+        this.showingRepository = showingRepository;
+        this.movieRepository = movieRepository;
+    }
 
     @Override
     public List<Showing> getAll() {

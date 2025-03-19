@@ -17,18 +17,24 @@ import com.movies.demo.services.Showing.StatsService;
 
 @Service
 public class ShowingServiceImpl implements ShowingService {
-    @Autowired
+
     private SeatsService seatsService;
-
-    @Autowired
     private ReservationService reservationService;
-
-    @Autowired
     private StatsService statsService;
-
-    @Autowired
     private GetterService getterService;
 
+    public ShowingServiceImpl(
+        SeatsService seatsService, 
+        ReservationService reservationService, 
+        StatsService statsService, 
+        GetterService getterService
+    ) {
+        this.seatsService = seatsService;
+        this.reservationService = reservationService;
+        this.statsService = statsService;
+        this.getterService = getterService;
+    }
+    
     @Override
     public List<Showing> getAll() {
         return getterService.getAll();
