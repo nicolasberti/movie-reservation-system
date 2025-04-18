@@ -14,7 +14,7 @@ import com.movies.demo.models.User;
 import com.movies.demo.services.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     
     private UserService userService;
@@ -24,12 +24,13 @@ public class UserController {
     ){
         this.userService = userService;
     }
-    @GetMapping("/users")
+    @GetMapping("/")
     public List<User> getUsers() {
         return userService.getAll();
     }
 
     @GetMapping("/myshowings")
+    // .../users/myshowings?userId={id}
     public List<UserShowingDTO> getMyShowings(@RequestParam long userId) {
         return userService.getMyShowings(userId)
             .stream()

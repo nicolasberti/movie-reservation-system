@@ -5,17 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.movies.demo.models.Movie;
 import com.movies.demo.services.MovieService;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/movies")
 public class MovieController {
     
     private MovieService movieService;
@@ -26,22 +22,22 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public ResponseEntity<Movie> crearAuto(@RequestBody Movie movie) {
         return new ResponseEntity(this.movieService.add(movie), HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<Movie> actualizarMovie(@RequestBody Movie movie) {
         return new ResponseEntity(this.movieService.update(movie), HttpStatus.CREATED);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/")
     public ResponseEntity<String> deleteMovie(@RequestBody Movie movie) {
         return new ResponseEntity(this.movieService.delete(movie), HttpStatus.CREATED);
     }
     
-    @GetMapping("/movies")
+    @GetMapping("/")
     public List<Movie> getMovies() {
         return movieService.getAll();
     }

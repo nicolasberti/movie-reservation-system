@@ -17,7 +17,7 @@ import com.movies.demo.models.responses.ShowingStats;
 import com.movies.demo.services.ShowingService;
 
 @RestController
-@RequestMapping("/showing")
+@RequestMapping("/showings")
 public class ShowingController {
     
     private ShowingService showingService;
@@ -28,17 +28,17 @@ public class ShowingController {
         this.showingService = showingService;
     }
 
-    @GetMapping("/showings")
+    @GetMapping("/")
     public List<Showing> getShowings() {
         return showingService.getAll();
     }
 
-    @PostMapping("/getshowingmoviebydate")
+    @PostMapping("/date/movie")
     public List<Showing> getShowingMovieByDate(@RequestBody RequestDate requestDate) {
         return showingService.getShowingMovieByDate(requestDate);
     }
 
-    @PostMapping("/getbydate")
+    @PostMapping("/date")
     public List<Showing> getByDate(@RequestBody RequestDate requestDate) {
         return showingService.getByDate(requestDate);
     }
