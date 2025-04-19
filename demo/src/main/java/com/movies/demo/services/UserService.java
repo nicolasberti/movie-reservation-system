@@ -10,5 +10,5 @@ public interface UserService {
 
     public List<User> getAll();
 
-    public List<UserShowing> getMyShowings(long userId);
+    public List<UserShowing> getMyShowings(String email);
 }

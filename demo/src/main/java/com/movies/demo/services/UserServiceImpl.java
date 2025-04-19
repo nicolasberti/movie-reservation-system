@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import com.movies.demo.models.User;
 import com.movies.demo.models.UserShowing;
 import com.movies.demo.repository.UserRepository;
+import com.movies.demo.services.JWT.JwtService;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+
     public UserServiceImpl(
         UserRepository userRepository
     ) {
@@ -30,7 +32,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserShowing> getMyShowings(long userId){
+    public List<UserShowing> getMyShowings(String email){
+        Long userId = userRepository.findByEmail(email).get().getId();
         User user = userRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return user.getUserShowings();

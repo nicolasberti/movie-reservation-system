@@ -1,0 +1,40 @@
+CREATE DATABASE IF NOT EXISTS movies;
+USE movies;
+
+-- Tabla movies
+CREATE TABLE movies (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    description TEXT,
+    image VARCHAR(255),
+    gender VARCHAR(100)
+);
+
+-- Tabla showings
+CREATE TABLE showings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    seats INT,
+    date DATE,
+    price FLOAT,
+    movies_id BIGINT,
+    CONSTRAINT fk_showings_movie FOREIGN KEY (movies_id) REFERENCES movies(id)
+);
+
+-- Tabla users
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    role ENUM('USER', 'ADMIN')
+);
+
+-- Tabla users_has_showings
+CREATE TABLE users_has_showings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    users_id BIGINT,
+    showings_id BIGINT,
+    seat INT,
+    CONSTRAINT fk_user_showing_user FOREIGN KEY (users_id) REFERENCES users(id),
+    CONSTRAINT fk_user_showing_showing FOREIGN KEY (showings_id) REFERENCES showings(id)
+);

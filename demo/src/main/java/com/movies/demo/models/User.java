@@ -3,6 +3,9 @@ package com.movies.demo.models;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +22,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -38,9 +44,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<UserShowing> userShowings;
-
-    public User() {
-    }
 
     public User(String email, String password, Role role) {
         this.email = email;
@@ -100,7 +103,7 @@ public class User implements UserDetails {
     // Métodos de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

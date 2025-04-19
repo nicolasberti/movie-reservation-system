@@ -14,19 +14,21 @@ services:
     networks:
       - spring-mysql-network
 
-  app:
-    build: .
-    container_name: app-movies
-    depends_on:
-      - mysql
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/moviesystem
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    networks:
-      - spring-mysql-network
+#  app:
+#    build: .
+#    container_name: app-movies
+#    restart:
+#     always
+#    depends_on:
+#      - mysql
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/moviesystem
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root
+#    networks:
+#      - spring-mysql-network
 
 volumes:
   mysql_data:

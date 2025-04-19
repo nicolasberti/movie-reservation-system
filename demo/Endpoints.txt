@@ -1,0 +1,12 @@
+Sin proteger.
+/auth
+POST /register
+required email: string
+required password: string
+required name: string
+
+POST /login
+email: string
+password: string
+
+Protegidos. Requieren JWT token mediante header.

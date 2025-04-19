@@ -1,12 +1,15 @@
 package com.movies.demo.services.Showing.utils;
 
-import com.movies.demo.models.Showing;
-import com.movies.demo.models.UserShowing;
-import com.movies.demo.models.responses.ShowingStats;
 import java.util.List;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
+import com.movies.demo.models.Showing;
+import com.movies.demo.models.UserShowing;
+import com.movies.demo.models.responses.ShowingStats;
+
+@Component
 @Primary
 public class DefaultStatsCalculator  implements StatsCalculator {
 
@@ -18,5 +21,7 @@ public class DefaultStatsCalculator  implements StatsCalculator {
 
         return new ShowingStats(money, seatsOccupied, seatsAvailable);
     }
+
+
 }
 

@@ -1,6 +1,7 @@
 Create image from docker-file: docker build -t mi-spring-boot-app .
 Create image and run: docker compose up --build
 Run: docker compose up
+mysql console: docker exec -it <id_container -> docker ps para verlo> mysql -u root -p
 
 -> api localhost:8080
 -> mysql run on port 3306

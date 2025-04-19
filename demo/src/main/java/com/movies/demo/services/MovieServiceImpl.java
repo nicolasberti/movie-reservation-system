@@ -1,8 +1,10 @@
 package com.movies.demo.services;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.movies.demo.dtos.movies.CreateMovieDTO;
+import com.movies.demo.dtos.movies.UpdateMovieDTO;
+import com.movies.demo.models.exceptions.InvalidRequestException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.movies.demo.models.Movie;
@@ -20,44 +22,50 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie add(Movie movie) {
-        return movieRepository.save(movie);
+    public Movie add(CreateMovieDTO movie) {
+        Movie newMovie = new Movie();
+        newMovie.setName(movie.getName());
+        newMovie.setDescription(movie.getDescription());
+        newMovie.setImage(movie.getImage());
+        newMovie.setGender(movie.getGender());
+        return movieRepository.save(newMovie);
     }
 
     @Override
-    public Movie update(Movie movie) {
-        Movie movieAux = movieRepository.findById(movie.getId()).orElse(null);
-        if(movieAux != null){
-            if(movie.getName() != null){
-                movieAux.setName(movie.getName());
-            }
-            if(movie.getDescription() != null){
-                movieAux.setDescription(movie.getDescription());
-            }
-            if(movie.getImage() != null){
-                movieAux.setImage(movie.getImage());
-            }
-            if(movie.getGender() != null){
-                movieAux.setGender(movie.getGender());
-            }
-            movieRepository.save(movieAux);
+    public Movie update(UpdateMovieDTO movie, Long id) {
+        Movie movieOnRepo = movieRepository.findById(id).orElseThrow(() -> new InvalidRequestException("Movie not found"));
+        if(movie.getName() != null){
+            movieOnRepo.setName(movie.getName());
         }
-        return movieAux;
-    }
-
-    @Override
-    public String delete(Movie movie) {
-        Movie movieAux = movieRepository.findById(movie.getId()).orElse(null);
-        if(movieAux != null){
-            movieRepository.delete(movieAux);
-            return "Movie deleted";
+        if(movie.getDescription() != null){
+            movieOnRepo.setDescription(movie.getDescription());
         }
-        return "Movie not found";
+        if(movie.getImage() != null){
+            movieOnRepo.setImage(movie.getImage());
+        }
+        if(movie.getGender() != null){
+            movieOnRepo.setGender(movie.getGender());
+        }
+        movieRepository.save(movieOnRepo);
+        return movieOnRepo;
     }
 
     @Override
-    public List<Movie> getAll() {
-        return movieRepository.findAll();
+    public Movie delete(Long id) {
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new InvalidRequestException("Movie not found"));
+        Movie newMovie = new Movie();
+        newMovie.setId(movie.getId());
+        newMovie.setName(movie.getName());
+        newMovie.setDescription(movie.getDescription());
+        newMovie.setImage(movie.getImage());
+        newMovie.setGender(movie.getGender());
+        movieRepository.delete(movie);
+        return newMovie;
+    }
+
+    @Override
+    public Page<Movie> getAll(Pageable page) {
+        return movieRepository.findAll(page);
     }
 
 }
